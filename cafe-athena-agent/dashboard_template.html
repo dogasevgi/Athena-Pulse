@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>AISO Engine | Café Athena (real results)</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = { theme: { extend: {
+      fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'], serif: ['Playfair Display', 'Georgia', 'serif'] },
+      colors: { med: { gold: '#D4AF37', navy: '#0B192C', teal: '#00ADB5' } } } } };
+  </script>
+  <style>
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    .glow-gold { box-shadow: 0 0 20px -3px rgba(212, 175, 55, 0.25); }
+    details > summary { cursor: pointer; list-style: none; }
+    details > summary::-webkit-details-marker { display: none; }
+    :focus-visible { outline: 2px solid #f59e0b; outline-offset: 2px; }
+    :root { color-scheme: dark; box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+    html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+    html, body { background: #020617; }
+    header.sticky { top: env(safe-area-inset-top, 0px); }
+    body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 60; background: #0f172a; }
+    .ico { display: inline-block; width: 1.2em; text-align: center; }
+  </style>
+</head>
+<body class="h-full flex flex-col font-sans antialiased text-slate-200 bg-slate-950">
+
+<header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 gap-4">
+      <div class="flex items-center space-x-3 min-w-0">
+        <div class="w-10 h-10 shrink-0 rounded-xl bg-gradient-to-tr from-amber-500 to-med-gold flex items-center justify-center text-xl shadow-lg shadow-amber-500/20">🏛️</div>
+        <div class="min-w-0">
+          <div class="flex items-center space-x-2">
+            <span class="font-serif font-bold text-lg text-white">Café Athena</span>
+            <span class="px-2 py-0.5 text-xs bg-amber-500/10 text-amber-400 border border-amber-500/30 rounded-full font-medium">Pacific Beach, SD</span>
+          </div>
+          <p class="text-xs text-slate-400 truncate">AI search visibility · real results only</p>
+        </div>
+      </div>
+      <nav class="hidden md:flex items-center space-x-1" id="nav"></nav>
+    </div>
+  </div>
+  <nav class="md:hidden flex overflow-x-auto gap-1 px-4 pb-2" id="nav-m"></nav>
+</header>
+
+<main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="stats"></div>
+
+  <!-- OVERVIEW -->
+  <section id="tab-overview" class="tab space-y-6">
+    <div id="hero" class="bg-slate-900 border border-slate-800 rounded-xl p-6"></div>
+    <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+      <h2 class="font-serif font-bold text-xl text-white">The owner’s five questions</h2>
+      <dl id="five" class="mt-4 space-y-4 text-sm"></dl>
+    </div>
+    <div class="grid lg:grid-cols-2 gap-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5"><h2 class="font-serif font-bold text-xl text-white">How we measured</h2><div id="method" class="mt-3 text-sm space-y-3"></div></div>
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5"><h2 class="font-serif font-bold text-xl text-white">The questions we asked</h2>
+        <p class="text-sm text-slate-400">How San Diegans ask AI assistants where to eat, by kind of request and the rough value of one booking.</p>
+        <div id="qbank" class="mt-3 overflow-x-auto"></div></div>
+    </div>
+  </section>
+
+  <!-- 1. DISCOVERY -->
+  <section id="tab-discovery" class="tab space-y-4 hidden">
+    <div class="bg-slate-900 border border-slate-800 rounded-xl p-5" id="profile"></div>
+    <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+      <div class="flex flex-wrap items-end justify-between gap-3 mb-4">
+        <div>
+          <h2 class="font-serif font-bold text-xl text-white">What AI assistants answered</h2>
+          <p class="text-sm text-slate-400">Every recorded answer to a San Diego diner question. Open a row to read the answer.</p>
+        </div>
+        <div class="flex flex-wrap gap-2 text-sm">
+          <select id="f-assistant" class="bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5"></select>
+          <select id="f-category" class="bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5"></select>
+          <label class="flex items-center gap-2 bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5">
+            <input type="checkbox" id="f-missing" class="accent-amber-500"> Only where Café Athena is missing</label>
+        </div>
+      </div>
+      <p class="text-xs text-slate-500 mb-2" id="q-count"></p>
+      <div class="overflow-x-auto"><table class="w-full text-sm">
+        <thead class="text-left text-slate-400 border-b border-slate-800"><tr>
+          <th class="py-2 pr-3 font-medium">Question</th><th class="py-2 pr-3 font-medium">Assistant</th>
+          <th class="py-2 pr-3 font-medium">Request type</th><th class="py-2 pr-3 font-medium">Café Athena</th>
+          <th class="py-2 font-medium">Recommended instead</th></tr></thead>
+        <tbody id="q-body"></tbody></table></div>
+    </div>
+  </section>
+
+  <!-- 2. ANALYSIS -->
+  <section id="tab-analysis" class="tab space-y-6 hidden">
+    <div class="grid lg:grid-cols-3 gap-6">
+      <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <h2 class="font-serif font-bold text-xl text-white">Where Café Athena shows up, by request</h2>
+        <p class="text-sm text-slate-400 mb-3">Share of answers that recommend Café Athena. Ordered by the value of one booking.</p>
+        <div class="h-80"><canvas id="catChart"></canvas></div>
+      </div>
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <h2 class="font-serif font-bold text-lg text-white mb-3">Recommended instead</h2>
+        <div id="rivals" class="space-y-4 text-sm"></div>
+      </div>
+    </div>
+    <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+      <h2 class="font-serif font-bold text-xl text-white">Head to head with each leader</h2>
+      <p class="text-sm text-slate-400 mb-4">Every rival that beats Café Athena in a kind of request, and what sets it apart.
+        Based on answers with full text (<span id="h2h-src"></span>).</p>
+      <div id="h2h" class="grid md:grid-cols-2 gap-4"></div>
+    </div>
+    <div class="grid lg:grid-cols-2 gap-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <h2 class="font-serif font-bold text-lg text-white">What an AI crawler sees</h2>
+        <p class="text-xs text-slate-500 mb-3" id="site-src"></p>
+        <div class="overflow-x-auto"><table class="w-full text-sm" id="site"></table></div>
+      </div>
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <h2 class="font-serif font-bold text-lg text-white">Pages assistants cite</h2>
+        <p class="text-xs text-slate-500 mb-3" id="cited-src"></p>
+        <div class="overflow-x-auto"><table class="w-full text-sm" id="cited"></table></div>
+      </div>
+    </div>
+    <div class="grid lg:grid-cols-2 gap-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <h2 class="font-serif font-bold text-lg text-white mb-3"><span class="ico text-teal-400 mr-2" aria-hidden="true">📈</span>What San Diegans search</h2>
+        <ul id="trends" class="space-y-2 text-sm text-slate-300 list-disc pl-5"></ul>
+        <p class="text-xs text-slate-500 mt-3">Google Trends, San Diego, past 12 months.</p>
+      </div>
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <h2 class="font-serif font-bold text-lg text-white mb-3"><span class="ico text-amber-400 mr-2" aria-hidden="true">⚖️</span>Where sources disagree</h2>
+        <ul id="conflicts" class="space-y-2 text-sm text-slate-300 list-disc pl-5"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. ACTION -->
+  <section id="tab-action" class="tab space-y-6 hidden">
+    <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+      <h2 class="font-serif font-bold text-xl text-white">The plan</h2>
+      <p class="text-sm text-slate-400 mb-4">Merged from all team sources, highest booking value first. Nothing goes live without the owner’s approval.</p>
+      <ol id="plan" class="space-y-3"></ol>
+    </div>
+    <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+      <div class="flex flex-wrap items-end justify-between gap-3 mb-4">
+        <div>
+          <h2 class="font-serif font-bold text-xl text-white">Ready-to-use files</h2>
+          <p class="text-sm text-slate-400">Built only from facts Café Athena publishes. Approve with <code class="text-amber-300">python3 act.py</code>; push drafts with <code class="text-amber-300">python3 wordpress.py</code>.</p>
+        </div>
+        <button id="copy" class="px-4 py-2 bg-amber-500 text-slate-950 font-bold rounded-lg hover:bg-amber-400 transition text-sm"><span class="ico mr-1.5" aria-hidden="true">📋</span>Copy file</button>
+      </div>
+      <div class="grid md:grid-cols-4 gap-4">
+        <div id="file-list" class="space-y-1 md:max-h-[520px] overflow-y-auto"></div>
+        <div class="md:col-span-3 space-y-3"><div id="file-why" class="text-sm"></div>
+        <pre id="file-box" class=" bg-slate-950 border border-slate-800 rounded-lg p-4 text-xs text-slate-300 overflow-auto max-h-[520px] whitespace-pre-wrap"></pre></div>
+      </div>
+    </div>
+    <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+      <h2 class="font-serif font-bold text-xl text-white">Putting it on the website</h2>
+      <p class="text-sm text-slate-400 mb-4">Every change waits for the owner. Each path below is reversible and logged.</p>
+      <div class="grid md:grid-cols-3 gap-4 text-sm" id="publish"></div>
+    </div>
+  </section>
+
+  <!-- 4. MEASUREMENT -->
+  <section id="tab-measurement" class="tab space-y-6 hidden">
+    <div class="grid lg:grid-cols-2 gap-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <h2 class="font-serif font-bold text-xl text-white">Baseline, by assistant and run</h2>
+        <p class="text-sm text-slate-400 mb-3">The starting point the weekly re-checks are compared against.</p>
+        <div class="h-64"><canvas id="runChart"></canvas></div>
+      </div>
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5" id="proof"></div>
+    </div>
+    <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+      <h2 class="font-serif font-bold text-lg text-white mb-2">How improvement gets proven</h2>
+      <ol class="list-decimal pl-5 text-sm text-slate-300 space-y-1">
+        <li>The owner approves and publishes the pages, schema and llms.txt.</li>
+        <li>The same questions are asked again every week (scheduled run), on every assistant with a key or by hand in the free apps.</li>
+        <li>This dashboard is rebuilt with <code class="text-amber-300">python3 dashboard.py</code> and the new run appears next to the baseline.</li>
+      </ol>
+      <p class="text-xs text-slate-500 mt-3">No improvement is shown here until a real re-check after publishing exists.</p>
+    </div>
+  </section>
+
+  <!-- 5. ASK LIVE -->
+  <section id="tab-live" class="tab space-y-6 hidden">
+    <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4">
+      <div>
+        <h2 class="font-serif font-bold text-xl text-white" id="l-title">Ask Gemini live</h2>
+        <p class="text-sm text-slate-400" id="l-desc">Type a diner’s question and see Gemini’s real answer, with Café Athena highlighted if it appears. Answers asked here are shown only in this page and aren’t saved.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-3 text-sm" id="l-gem">
+        <label class="space-y-1"><span class="text-slate-400">Gemini API key (kept in this tab only)</span>
+          <input id="l-key" type="password" autocomplete="off" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2" placeholder="AIza… or AQ.…"></label>
+        <label class="space-y-1"><span class="text-slate-400">Model</span>
+          <input id="l-model" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2" value="gemini-3.5-flash-lite"></label>
+        <label class="flex items-end gap-2 pb-2"><input id="l-search" type="checkbox" class="accent-amber-500"> Use Google Search grounding</label>
+      </div>
+      <div class="flex gap-2">
+        <input id="l-q" class="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm" value="where can I get a good gyro near Garnet Ave">
+        <button id="l-go" class="px-4 py-2 bg-amber-500 text-slate-950 font-bold rounded-lg hover:bg-amber-400 transition text-sm"><span class="ico mr-1.5" aria-hidden="true">➤</span>Ask</button>
+      </div>
+      <div id="l-out" class="text-sm"></div>
+      <p class="text-xs text-slate-500" id="l-help">Get a free key at aistudio.google.com → Get API key. If you see "no free quota", pick a model with "lite" in its name or turn off search grounding.</p>
+    </div>
+  </section>
+
+  <footer class="text-xs text-slate-500 border-t border-slate-800 pt-4 pb-10 space-y-2" id="foot"></footer>
+</main>
+
+<div id="toast" class="fixed bottom-6 right-6 bg-slate-800 border border-slate-700 text-sm px-4 py-2 rounded-lg shadow-lg transition-all translate-y-20 opacity-0" role="status"></div>
+
+<script>
+const DATA = /*__DATA__*/null;
+const HOSTED = /*__HOSTED__*/false;  // hosted page: no live API calls (the host blocks them)
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pct = x => x == null ? '–' : Math.round(x * 100) + '%';
+const COLORS = ['#f59e0b', '#2dd4bf', '#38bdf8', '#f472b6'];
+const TABS = [['overview','Overview'],['discovery','1. Discovery'],['analysis','2. Analysis'],['action','3. Action'],['measurement','4. Measurement'],['live','Ask live']];
+const toast = m => { const t = document.getElementById('toast'); t.textContent = m;
+  t.classList.remove('translate-y-20','opacity-0'); setTimeout(() => t.classList.add('translate-y-20','opacity-0'), 2500); };
+
+function nav() {
+  const mk = (cls) => TABS.map(([id, l]) => `<button data-tab="${id}" class="${cls}">${l}</button>`).join('');
+  document.getElementById('nav').innerHTML = mk('tabbtn px-4 py-2 rounded-lg text-sm font-medium transition-all');
+  document.getElementById('nav-m').innerHTML = mk('tabbtn px-3 py-1.5 text-xs rounded-lg whitespace-nowrap');
+  document.querySelectorAll('.tabbtn').forEach(b => b.onclick = () => show(b.dataset.tab));
+  const start = (location.hash || '').slice(1);
+  show(TABS.some(t => t[0] === start) ? start : 'overview');
+}
+function show(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('hidden', t.id !== 'tab-' + id));
+  document.querySelectorAll('.tabbtn').forEach(b => {
+    const on = b.dataset.tab === id;
+    b.className = b.className.replace(/ ?(text-amber-400 bg-slate-800 border border-amber-500\/30|text-slate-400 hover:text-white)/g, '')
+      + (on ? ' text-amber-400 bg-slate-800 border border-amber-500/30' : ' text-slate-400 hover:text-white');
+    b.setAttribute('aria-current', on ? 'page' : 'false');
+  });
+}
+
+function stats() {
+  const A = DATA.assistants, n = A.reduce((s, a) => s + a.answers, 0), m = A.reduce((s, a) => s + a.mentioned, 0);
+  const ranks = A.filter(a => a.avg_rank), vw = A.filter(a => a.value_weighted != null);
+  const us = (DATA.site.rows || []).filter(r => ['Restaurant schema','FAQ schema','Menu schema','llms.txt'].includes(r[0]));
+  const ok = us.filter(r => r[1] === true).length;
+  const card = (label, val, sub, color, icon) => `<div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex items-center justify-between">
+    <div><p class="text-xs text-slate-400 font-medium">${label}</p><h3 class="text-2xl font-bold ${color} mt-1">${val}</h3>
+    <p class="text-[11px] text-slate-400 mt-0.5">${sub}</p></div>
+    <div class="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center ${color} text-lg"><span aria-hidden="true">${icon}</span></div></div>`;
+  document.getElementById('stats').innerHTML =
+    card('Recommended in', `${m} of ${n}`, A.map(a => `${a.name} ${pct(a.rate)}`).join(' · '), 'text-amber-400', '👁️') +
+    card('Avg position when named', ranks.length ? '#' + ranks[0].avg_rank : '–', ranks.map(a => `${a.name} #${a.avg_rank}`).join(' · ') || 'not enough mentions', 'text-emerald-400', '🏅') +
+    card('Booking value covered', vw.length ? pct(vw[0].value_weighted) : '–', vw.length ? vw.map(a => `${a.name} ${pct(a.value_weighted)}`).join(' · ') + '; events weigh most' : '', 'text-sky-400', '💰') +
+    card('Machine-readable site', us.length ? `${ok} of ${us.length}` : '–', us.map(r => r[0].replace(' schema', '')).join(', ') + ' in place', 'text-rose-400', '🧩');
+}
+
+function discovery() {
+  const fa = document.getElementById('f-assistant'), fc = document.getElementById('f-category');
+  fa.innerHTML = '<option value="">All assistants</option>' + DATA.assistants.map(a => `<option>${esc(a.name)}</option>`).join('');
+  fc.innerHTML = '<option value="">All request types</option>' + DATA.categories.map(c => `<option value="${c.key}">${esc(c.label)}</option>`).join('');
+  const label = k => (DATA.categories.find(c => c.key === k) || {}).label || k;
+  const draw = () => {
+    const rows = DATA.queries.filter(q => (!fa.value || q.assistant === fa.value) && (!fc.value || q.category === fc.value)
+      && (!document.getElementById('f-missing').checked || !q.mentioned));
+    document.getElementById('q-count').textContent = `${rows.length} answers`;
+    document.getElementById('q-body').innerHTML = rows.map(q => {
+      const us = q.mentioned ? `<span class="text-emerald-400 font-semibold">${q.position ? '#' + q.position : 'Mentioned'}</span>`
+                             : '<span class="text-rose-400">Not mentioned</span>';
+      const body = q.answer ? `<details><summary class="text-slate-200 hover:text-amber-300">${esc(q.query)} <span class="ico text-[10px] text-slate-500 ml-1" aria-hidden="true">▾</span></summary>
+          <div class="mt-2 p-3 bg-slate-950 border border-slate-800 rounded text-xs text-slate-300 whitespace-pre-wrap">${esc(q.answer)}${q.sources.length ? '\n\nCited: ' + esc(q.sources.join(', ')) : ''}</div></details>`
+        : `${esc(q.query)}${q.snapshot ? ' <span class="text-[10px] text-slate-500">(rank only, snapshot)</span>' : ''}`;
+      return `<tr class="border-b border-slate-800/70 align-top"><td class="py-2 pr-3 max-w-md">${body}</td><td class="py-2 pr-3">${esc(q.assistant)}</td>
+        <td class="py-2 pr-3 text-slate-400">${esc(label(q.category))}</td><td class="py-2 pr-3">${us}</td>
+        <td class="py-2 text-slate-400">${esc(q.top.filter(n => !/athena/i.test(n)).slice(0, 3).join(', '))}</td></tr>`;
+    }).join('');
+  };
+  [fa, fc, document.getElementById('f-missing')].forEach(el => el.onchange = draw);
+  draw();
+}
+
+function analysis() {
+  new Chart(document.getElementById('catChart'), { type: 'bar',
+    data: { labels: DATA.categories.map(c => c.label + (c.value ? ` ($${c.value.toLocaleString()})` : '')),
+      datasets: DATA.assistants.map((a, i) => ({ label: a.name, backgroundColor: COLORS[i % 4], minBarLength: 3,
+        data: DATA.categories.map(c => a.by_category[c.key] == null ? null : Math.round(a.by_category[c.key] * 100)) })) },
+    options: { indexAxis: 'y', maintainAspectRatio: false, scales: { x: { max: 100, ticks: { color: '#94a3b8', callback: v => v + '%' }, grid: { color: '#1e293b' } },
+      y: { ticks: { color: '#cbd5e1' }, grid: { display: false } } }, plugins: { legend: { labels: { color: '#cbd5e1' } } } } });
+  document.getElementById('rivals').innerHTML = DATA.assistants.map(a => `<div><p class="text-xs text-slate-400 mb-1">${esc(a.name)}</p>
+      <p class="text-slate-200">${esc(a.rivals.slice(0, 6).join(', '))}</p></div>`).join('')
+    + (DATA.both_rivals.length ? `<div class="pt-3 border-t border-slate-800"><p class="text-xs text-amber-400 mb-1">Named by every assistant</p>
+      <p class="text-white font-semibold">${esc(DATA.both_rivals.join(', '))}</p></div>` : '');
+  document.getElementById('h2h-src').textContent = DATA.assistants.filter(a => a.source === 'this agent').map(a => a.name).join(', ') || 'none yet';
+  document.getElementById('h2h').innerHTML = DATA.head_to_head.length ? DATA.head_to_head.slice(0, 6).map(x => `
+    <div class="bg-slate-950 border border-slate-800 rounded-lg p-4 text-sm space-y-2">
+      <div class="flex justify-between gap-2"><h3 class="font-semibold text-white">vs ${esc(x.rival)}</h3>
+        <span class="text-rose-400 text-xs whitespace-nowrap">~$${x.lost_value.toLocaleString()} at stake</span></div>
+      <p class="text-slate-400">Leads ${esc(x.wins.map(w => (DATA.categories.find(c => c.key === w) || {}).label || w).join(', '))}:
+        ${pct(x.rival_rate)} vs ${pct(x.target_rate)}; ${x.lost} answer${x.lost === 1 ? '' : 's'} left Café Athena out.</p>
+      ${x.said.map(d => `<p><span class="text-amber-300">Praised for ${esc(d.theme)}</span> <span class="text-slate-500">${pct(d.rival)} vs ${pct(d.target)}</span></p>`).join('')}
+      ${x.sources.slice(0, 3).map(d => `<p class="text-slate-400"><span class="ico text-[10px] mr-1" aria-hidden="true">🔗</span>${esc(d.domain)} cited ${pct(d.rival)} vs ${pct(d.target)}</p>`).join('')}
+      ${x.website.length ? `<p class="text-rose-300">Its site has, ours doesn't: ${esc(x.website.join(', '))}</p>` : ''}
+    </div>`).join('') : '<p class="text-sm text-slate-500">Run <code>python3 compare.py</code> to add this.</p>';
+  const yn = v => v === true ? '<span class="text-emerald-400">Yes</span>' : v === false ? '<span class="text-rose-400">No</span>'
+    : v == null ? '<span class="text-slate-500">–</span>' : `<span class="text-slate-300">${esc(v)}</span>`;
+  document.getElementById('site-src').textContent = 'Source: ' + DATA.site.source;
+  document.getElementById('site').innerHTML = `<thead class="text-slate-400 border-b border-slate-800"><tr><th></th>${DATA.site.columns.map(c => `<th class="py-2 pr-3 text-left font-medium">${esc(c)}</th>`).join('')}</tr></thead>`
+    + '<tbody>' + DATA.site.rows.map(r => `<tr class="border-b border-slate-800/70"><th class="py-2 pr-3 text-left font-normal text-slate-300">${esc(r[0])}</th>${r.slice(1).map(v => `<td class="py-2 pr-3">${yn(v)}</td>`).join('')}</tr>`).join('') + '</tbody>';
+  document.getElementById('cited-src').textContent = 'Source: ' + DATA.cited_source;
+  document.getElementById('cited').innerHTML = '<thead class="text-slate-400 border-b border-slate-800"><tr><th class="py-2 pr-3 text-left font-medium">Site</th><th class="py-2 pr-3 text-left font-medium">Cited</th><th class="py-2 pr-3 text-left font-medium">Café Athena</th><th class="py-2 text-left font-medium">Lists instead</th></tr></thead><tbody>'
+    + DATA.cited.map(c => `<tr class="border-b border-slate-800/70"><td class="py-2 pr-3">${esc(c.domain)}</td><td class="py-2 pr-3 text-slate-400">${esc(c.cited)}</td>
+      <td class="py-2 pr-3">${c.athena === true ? '<span class="text-emerald-400">Listed</span>'
+        : c.athena === false && (c.competitors || []).length ? '<span class="text-rose-400">Missing</span>'
+        : c.athena === false ? '<span class="text-slate-500" title="The page loaded but no restaurant names could be read (often built with scripts)">Couldn’t read</span>'
+        : '<span class="text-slate-500">Not checked</span>'}</td>
+      <td class="py-2 text-slate-400">${esc((c.competitors || []).join(', ')) || '–'}</td></tr>`).join('') + '</tbody>';
+  document.getElementById('trends').innerHTML = DATA.trends.map(t => `<li>${esc(t)}</li>`).join('');
+  document.getElementById('conflicts').innerHTML = DATA.conflicts.map(t => `<li>${esc(t)}</li>`).join('');
+}
+
+function action() {
+  const badge = { done: ['Done, approved', 'bg-emerald-500/15 text-emerald-300'], drafted: ['Drafted', 'bg-sky-500/15 text-sky-300'],
+                  next: ['Next', 'bg-slate-700 text-slate-300'], owner: ['Needs owner', 'bg-rose-500/15 text-rose-300'] };
+  document.getElementById('plan').innerHTML = DATA.plan.map((p, i) => `<li class="bg-slate-950 border border-slate-800 rounded-lg p-4 text-sm">
+    <div class="flex flex-wrap items-center gap-2 mb-1"><span class="text-slate-500 font-mono">${i + 1}</span>
+      <span class="font-semibold text-white">${esc(p.title)}</span>
+      <span class="px-2 py-0.5 rounded text-xs ${badge[p.status][1]}">${badge[p.status][0]}</span>
+      <span class="text-xs text-slate-500">${esc(p.value)}</span></div>
+    <p class="text-slate-400">${esc(p.evidence)}</p>
+    <p class="text-xs text-slate-500 mt-1">Found by ${esc(p.found_by.join(', '))}${p.deliverable ? ' · ' + esc(p.deliverable) : ''}</p>
+    ${p.owner ? `<p class="text-xs text-amber-300 mt-1"><span class="ico mr-1" aria-hidden="true">👤</span>${esc(p.owner)}</p>` : ''}</li>`).join('');
+  const list = document.getElementById('file-list'), box = document.getElementById('file-box');
+  list.innerHTML = DATA.files.map((f, i) => `<button data-i="${i}" class="fbtn w-full text-left px-3 py-2 rounded-lg text-xs border border-transparent hover:bg-slate-800">
+    <span class="block text-slate-200 truncate">${esc(f.name)}</span><span class="text-slate-500">${esc(f.kind)}</span></button>`).join('');
+  const pick = i => { box.textContent = DATA.files[i].content; box.dataset.i = i;
+    document.getElementById('file-why').innerHTML = why(DATA.files[i].name);
+    document.querySelectorAll('.fbtn').forEach(b => b.classList.toggle('bg-slate-800', +b.dataset.i === i)); };
+  document.querySelectorAll('.fbtn').forEach(b => b.onclick = () => pick(+b.dataset.i));
+  if (DATA.files.length) pick(0);
+  document.getElementById('copy').onclick = () => navigator.clipboard.writeText(box.textContent)
+    .then(() => toast('Copied ' + DATA.files[box.dataset.i].name)).catch(() => toast('Select the text and copy it manually'));
+}
+
+function catLabel(k) { return (DATA.categories.find(c => c.key === k) || {}).label || k; }
+function catValue(k) { return (DATA.categories.find(c => c.key === k) || {}).value || 0; }
+
+function overview() {
+  const A = DATA.assistants, n = A.reduce((s, a) => s + a.answers, 0), m = A.reduce((s, a) => s + a.mentioned, 0);
+  // Opening story: the highest-value real answer that leaves Café Athena out.
+  const miss = DATA.queries.filter(q => !q.mentioned && q.answer && (q.top || []).length)
+    .sort((a, b) => catValue(b.category) - catValue(a.category))[0];
+  document.getElementById('hero').innerHTML = (miss ? `<p class="text-xs text-slate-400">A diner asks ${esc(miss.assistant)}</p>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold text-white mt-1">“${esc(miss.query)}”</h1>
+    <ol class="mt-4 space-y-1 text-lg text-slate-200 list-decimal pl-6">${miss.top.map(t => `<li>${esc(t)}</li>`).join('')}</ol>
+    <p class="mt-3 text-lg italic text-rose-400">Café Athena isn’t in this answer.</p>` : '')
+    + `<p class="mt-4 text-slate-300">Across ${n} recorded answers, AI assistants recommended Café Athena ${m} times.
+       ${DATA.categories.filter(c => A.every(a => a.by_category[c.key] === undefined || a.by_category[c.key] === 0)).map(c => c.label.toLowerCase()).slice(0, 4).join(', ')
+         ? 'It was never recommended for ' + DATA.categories.filter(c => A.every(a => a.by_category[c.key] === undefined || a.by_category[c.key] === 0)).map(c => c.label.toLowerCase()).slice(0, 4).join(', ') + ' questions.' : ''}</p>`;
+  const h = DATA.head_to_head || [], plan = DATA.plan || [];
+  const ready = plan.filter(p => ['done', 'drafted'].includes(p.status)).length;
+  const exp = DATA.experiment;
+  const site = (DATA.site.rows || []).filter(r => ['Restaurant schema','FAQ schema','Menu schema','llms.txt'].includes(r[0]));
+  const five = [
+    ['Where do I rank in AI search?', `Recommended in ${m} of ${n} answers (${A.map(a => `${a.name} ${pct(a.rate)}`).join(', ')}).
+      ${A.filter(a => a.value_weighted != null).map(a => `${pct(a.value_weighted)} of potential booking value on ${a.name}.`).join(' ')}`],
+    ['Why are competitors beating me?', (h.length ? h.slice(0, 3).map(x => `${x.rival} leads ${x.wins.map(catLabel).join(', ').toLowerCase()} (~$${x.lost_value.toLocaleString()} of bookings in answers that left Café Athena out)`).join('; ') + '. ' : '')
+      + `Café Athena’s site passes ${site.filter(r => r[1] === true).length} of ${site.length} machine-readable checks, and the guides assistants cite list rivals instead.`],
+    ['What should I change?', plan.slice(0, 3).map((p, i) => `(${i + 1}) ${p.title}`).join(' ')],
+    ['Can the agent make those changes?', `Yes. ${ready} of ${plan.length} actions are done or drafted, as ${DATA.files.length} ready-to-use files built only from Café Athena’s published facts. Nothing goes live until the owner approves it.`],
+    ['Did my visibility improve?', exp && exp.before ? `In a controlled test, mentions went from ${pct(exp.before.mention_rate)} to ${pct(exp.after.mention_rate)} once the new pages were available. Live re-checks after publishing will confirm it.`
+      : 'Not yet: the baseline is measured and the fixes are ready. The same questions are re-asked after the owner publishes, and the change shows up here.']];
+  document.getElementById('five').innerHTML = five.map(([q, a]) => `<div><dt class="text-amber-400 font-semibold">${q}</dt><dd class="text-slate-300 mt-1">${esc(a)}</dd></div>`).join('');
+
+  const searched = a => DATA.queries.some(q => q.assistant === a.name && (q.sources || []).length);
+  const perCat = DATA.categories.map(c => DATA.queries.filter(q => q.category === c.key).length).filter(x => x);
+  document.getElementById('method').innerHTML = `<ul class="space-y-2 text-slate-300">${A.map(a => `<li><span class="text-white font-medium">${esc(a.name)}:</span> ${a.answers} answers
+      (${esc(a.source)}${searched(a) ? '; answers cite web pages' : ''}).</li>`).join('')}
+    <li><span class="text-white font-medium">Not measured yet:</span> ChatGPT and Perplexity. The method is the same: add their answers with answers/template.csv, or set an API key, and they appear here.</li></ul>
+    <ul class="list-disc pl-5 space-y-1 text-slate-400">
+      <li>AI answers vary from one run to the next, so each figure is a rate across many answers, not one reply.</li>
+      <li>Small samples: ${perCat.length ? Math.min(...perCat) : 0}–${perCat.length ? Math.max(...perCat) : 0} answers per kind of request. Treat single-category gaps as directional; the pattern across all occasion types is the finding.</li>
+      <li>Booking values are rough estimates per kind of request (events about $2,000, lunch about $30), used to rank what matters most.</li>
+      <li>Before/after simulation: when the AI reads Café Athena’s own site it already recommends it, so the test can’t show a lift. The live problem is being found, which only re-checks after publishing can measure.</li>
+      <li>Website checks respect robots.txt and pause between pages. Review sites that block automated visits are marked “not checked”.</li></ul>`;
+
+  const bank = DATA.query_bank || [];
+  const groups = {}; bank.forEach(q => (groups[q.intent] = groups[q.intent] || []).push(q));
+  document.getElementById('qbank').innerHTML = bank.length ? `<p class="text-xs text-slate-500 mb-2">${bank.length} questions · ${bank.filter(q => q.trends).length} phrased from Google Trends</p>
+    <table class="w-full text-sm"><thead><tr class="text-left text-slate-500 text-xs"><th class="py-2">Request type</th><th>Questions</th><th>Value</th><th>Examples</th></tr></thead><tbody>
+    ${Object.entries(groups).sort((a, b) => b[1][0].value - a[1][0].value).map(([k, qs]) => `<tr class="border-t border-slate-800 align-top">
+      <td class="py-2 pr-3 text-slate-200">${esc(catLabel(k))}</td><td class="pr-3">${qs.length}</td><td class="pr-3">$${qs[0].value.toLocaleString()}</td>
+      <td class="text-slate-400">${qs.slice(0, 2).map(q => '“' + esc(q.query) + '”' + (q.trends ? ' <span class="text-teal-400 text-xs">Trends</span>' : '')).join('<br>')}</td></tr>`).join('')}</tbody></table>`
+    : '<p class="text-slate-400">Question list not included in this build.</p>';
+}
+
+function profile() {
+  const r = DATA.restaurant;
+  const facts = [['Address', [r.street, r.neighborhood, r.city].filter(Boolean).join(', ')], ['Cuisine', (r.cuisine || []).join(' & ')],
+    ['Open since', r.founded], ['Hours', r.hours], ['Phone', r.phone]].filter(f => f[1]);
+  document.getElementById('profile').innerHTML = `<div class="flex flex-wrap items-start justify-between gap-4">
+    <div><h2 class="font-serif font-bold text-xl text-white">Restaurant profile</h2>
+    <p class="text-sm text-slate-400">The verified facts every generated page is allowed to use. Anything else is marked for the owner to confirm.</p></div></div>
+    <dl class="grid sm:grid-cols-2 lg:grid-cols-5 gap-3 mt-4 text-sm">${facts.map(([k, v]) =>
+      `<div><dt class="text-xs text-slate-500">${k}</dt><dd class="text-slate-200">${esc(v)}</dd></div>`).join('')}</dl>
+    ${(r.highlights || []).length ? `<ul class="mt-4 grid md:grid-cols-2 gap-x-6 gap-y-1 text-sm text-slate-300 list-disc pl-5">${r.highlights.map(h => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}`;
+}
+
+function why(name) {
+  const base = name.split('/').pop().replace(/\.(html|txt|md|jsonld)$/, '');
+  const p = DATA.plan.find(x => x.deliverable && (x.deliverable.includes(name) || x.deliverable.includes(base)));
+  if (!p) return '';
+  return `<div class="bg-slate-950 border border-slate-800 rounded-lg p-3"><p class="text-xs text-slate-500">Why this file</p>
+    <p class="text-slate-200 font-medium">${esc(p.title)}</p><p class="text-slate-400">${esc(p.evidence)}</p></div>`;
+}
+
+function publishing() {
+  const paths = [
+    ['WordPress drafts', 'Creates each approved page as a draft; the owner clicks Publish. One command removes them all.',
+     'python3 wordpress.py          # dry run\npython3 wordpress.py --live   # create drafts\npython3 wordpress.py --undo   # remove them'],
+    ['GitHub pull request', 'Opens a pull request with the schema, FAQ and pages against the site repo; nothing merges without review.',
+     'export GITHUB_TOKEN=... GITHUB_REPO=owner/repo\npython3 act.py'],
+    ['Paste into any site', 'Squarespace, Wix or Webflow: paste each page into an HTML block, and the two schema files plus llms.txt once, site-wide.',
+     'artifacts/pages/*.html\nartifacts/restaurant_schema.jsonld\nartifacts/faq_schema.jsonld\nartifacts/llms.txt']];
+  const log = DATA.actions_log || [];
+  document.getElementById('publish').innerHTML = paths.map(([t, d, c]) => `<div class="bg-slate-950 border border-slate-800 rounded-lg p-4">
+    <p class="text-white font-semibold">${t}</p><p class="text-slate-400 mt-1">${d}</p>
+    <pre class="mt-3 text-xs text-amber-300 whitespace-pre-wrap">${esc(c)}</pre></div>`).join('')
+    + `<div class="md:col-span-3 text-xs text-slate-400">${log.length ? 'Approval log: ' + log.slice(-5).map(e => esc(`${e.ts} ${e.action}: ${e.status}`)).join(' · ')
+       : 'Approval log: nothing approved or published yet.'}</div>`;
+}
+
+function measurement() {
+  const labels = [], vals = [], cols = [];
+  DATA.assistants.forEach((a, i) => a.runs.forEach(r => { labels.push(`${a.name}: ${r.label}`); vals.push(Math.round(r.mentioned / r.n * 100)); cols.push(COLORS[i % 4]); }));
+  new Chart(document.getElementById('runChart'), { type: 'bar', data: { labels, datasets: [{ label: 'Recommended', data: vals, backgroundColor: cols }] },
+    options: { maintainAspectRatio: false, plugins: { legend: { display: false } },
+      scales: { y: { min: 0, max: 100, beginAtZero: true, ticks: { color: '#94a3b8', callback: v => v + '%' }, grid: { color: '#1e293b' } }, x: { ticks: { color: '#cbd5e1' } } } } });
+  const p = document.getElementById('proof'), e = DATA.experiment, s = DATA.simulation;
+  if (e && e.before) {
+    p.innerHTML = `<h2 class="font-serif font-bold text-xl text-white mb-2">Controlled before/after test</h2>
+      <div class="grid grid-cols-2 gap-4 my-3"><div><p class="text-xs text-slate-400">Before</p><p class="text-3xl font-bold">${pct(e.before.mention_rate)}</p></div>
+      <div><p class="text-xs text-slate-400">After new pages</p><p class="text-3xl font-bold text-emerald-400">${pct(e.after.mention_rate)}</p></div></div>
+      <p class="text-xs text-slate-500">Same rival pages in both runs; only Café Athena's new content added. A controlled estimate, not a live ranking change.</p>`;
+  } else if (s) {
+    const ones = s.before.filter(q => q.position === 1).length;
+    p.innerHTML = `<h2 class="font-serif font-bold text-xl text-white mb-2">Before/after simulation</h2>
+      <p class="text-sm text-slate-300 mb-3">${esc(s.finding)}</p>
+      <p class="text-xs text-slate-400 mb-1">"Before" answers (Café Athena's current site + 3 rival sites): #1 in ${ones} of ${s.before.length}</p>
+      <div class="flex flex-wrap gap-1">${s.before.map(q => `<span title="${esc(q.query)}" class="px-2 py-0.5 rounded text-xs ${q.position === 1 ? 'bg-emerald-500/15 text-emerald-300' : 'bg-slate-800 text-slate-300'}">#${q.position}</span>`).join('')}</div>
+      <p class="text-xs text-slate-500 mt-3">Status: ${esc(s.status)}. Not presented as a lift.</p>`;
+  } else {
+    p.innerHTML = '<h2 class="font-serif font-bold text-xl text-white mb-2">Before/after</h2><p class="text-sm text-slate-400">Not run yet.</p>';
+  }
+}
+
+function live() {
+  const out = document.getElementById('l-out'), btn = document.getElementById('l-go');
+  btn.onclick = async () => {
+    const key = document.getElementById('l-key').value.trim(), q = document.getElementById('l-q').value.trim();
+    if (!key) { out.innerHTML = '<p class="text-rose-400">Paste a Gemini API key first.</p>'; return; }
+    btn.disabled = true; out.innerHTML = '<p class="text-slate-400"><span class="ico mr-2" aria-hidden="true">⏳</span>Asking Gemini…</p>';
+    const body = { contents: [{ role: 'user', parts: [{ text: q }] }] };
+    if (document.getElementById('l-search').checked) body.tools = [{ google_search: {} }];
+    try {
+      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(document.getElementById('l-model').value.trim())}:generateContent`,
+        { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key }, body: JSON.stringify(body) });
+      const d = await r.json();
+      if (!r.ok) throw new Error((d.error && d.error.message) || r.status);
+      const text = ((d.candidates || [{}])[0].content || { parts: [] }).parts.map(p => p.text || '').join('');
+      out.innerHTML = verdict(text) + marked(text);
+    } catch (err) {
+      out.innerHTML = `<p class="text-rose-400">Gemini returned an error: ${esc(err.message)}</p>`;
+    } finally { btn.disabled = false; }
+  };
+}
+
+function verdict(text) {
+  const hit = /caf[eé] athena/i.test(text);
+  return `<p class="mb-2 font-semibold ${hit ? 'text-emerald-400' : 'text-rose-400'}">${hit ? 'Café Athena is in this answer.' : 'Café Athena is not in this answer.'}</p>`;
+}
+function marked(text) {
+  return `<div class="p-3 bg-slate-950 border border-slate-800 rounded text-xs text-slate-300 whitespace-pre-wrap">${esc(text).replace(/(caf[eé] athena)/gi, '<mark class="bg-amber-400 text-slate-950 px-0.5">$1</mark>')}</div>`;
+}
+
+// Hosted page: ask Claude through the viewer's own Claude account (the host blocks direct API calls).
+function liveHosted() {
+  document.getElementById('l-title').textContent = 'Ask Claude live';
+  document.getElementById('l-desc').textContent = 'Type a diner’s question and see how Claude answers it, with Café Athena highlighted if it appears. '
+    + 'This uses your own Claude account (you’re asked once). Claude can’t browse the web here, so it answers from what it already knows, '
+    + 'unlike the recorded answers, which used web search. Nothing asked here is saved or counted in the results.';
+  document.getElementById('l-gem').remove();
+  document.getElementById('l-help').textContent = 'Try a question from the list on the Overview tab, such as “where to host a rehearsal dinner in Pacific Beach”.';
+  const out = document.getElementById('l-out'), btn = document.getElementById('l-go');
+  let ask = null;
+  btn.disabled = true; out.innerHTML = '<p class="text-slate-400">Connecting to Claude…</p>';
+  claude.use('sample').then(s => {
+    ask = s;
+    out.innerHTML = s ? '' : '<p class="text-slate-400">Asking Claude works when this dashboard is opened inside Claude.</p>';
+    btn.disabled = !s;
+  });
+  btn.onclick = async () => {
+    const q = document.getElementById('l-q').value.trim();
+    if (!ask || !q) return;
+    btn.disabled = true; out.innerHTML = '<p class="text-slate-400">Thinking…</p>';
+    try {
+      const r = await ask(q, { cache: false, onText: ({ text }) => { out.innerHTML = marked(text); } });
+      out.innerHTML = verdict(r.text) + marked(r.text);
+    } catch (err) {
+      const msg = { not_granted: 'Claude wasn’t allowed for this page, so asking is off for now. Reload the page to be asked again.',
+                    rate_limited: 'Too many questions at once. Wait a moment, then ask again.' }[err && err.code];
+      out.innerHTML = `<p class="text-rose-400">${esc(msg || ('Claude couldn’t answer: ' + ((err && err.message) || err)))}</p>`
+        + (err && err.text ? marked(err.text) : '');
+    } finally { btn.disabled = !ask; }
+  };
+}
+
+function foot() {
+  document.getElementById('foot').innerHTML = `<p>Built ${esc(DATA.generated)}. Every number comes from recorded AI answers, website audits or Google Trends; nothing is simulated.
+    Items labeled "snapshot" were recorded with the team's other tool on Oct 23, 2026.</p>
+    <p>${DATA.assistants.map(a => `${esc(a.name)}: ${a.answers} answers (${esc(a.source)})`).join(' · ')}</p>`;
+}
+
+if (!DATA) { document.querySelector('main').innerHTML = '<p class="text-rose-400">No data. Build this page with python3 dashboard.py.</p>'; }
+else {
+  if (HOSTED) TABS[TABS.findIndex(t => t[0] === 'live')][1] = 'Ask Claude';
+  nav(); stats(); overview(); profile(); discovery(); analysis(); action(); publishing(); measurement();
+  HOSTED && window.claude ? liveHosted() : HOSTED ? (TABS.splice(TABS.findIndex(t => t[0] === 'live'), 1), document.getElementById('tab-live').remove(), nav()) : live();
+  foot();
+}
+</script>
+</body>
+</html>

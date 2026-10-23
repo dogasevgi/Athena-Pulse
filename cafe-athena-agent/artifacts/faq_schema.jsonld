@@ -1,0 +1,86 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Where is Café Athena?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Café Athena is at 1846 Garnet Ave, San Diego, CA 92109, in Pacific Plaza in the Pacific Beach neighborhood."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What kind of food does Café Athena serve?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Greek and Mediterranean food, from gyros, souvlaki and moussaka to spreads like hummus, tzatziki and skordalia. It has been in Pacific Beach since 1990."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are Café Athena's hours?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sunday to Thursday 11 AM to 9 PM, and Friday and Saturday 11 AM to 9:30 PM."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Café Athena have a happy hour?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, every day from 3 to 6 PM for dine-in guests. Small plates start at $5, and four signature cocktails are $10."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's on the happy hour menu?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Small plates such as hummos, tzatziki, yalanji, spanakopita, feta bruschetta, keftedes, falafel and calamari, plus chicken and beef souvlaki skewers. Drinks include $10 cocktails, $2 off wines by the glass, and $6–7 beers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What cocktails does Café Athena serve?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A menu named after Greek gods, including the Athena (vodka, elderflower, cucumber, lime, mint), Poseidon (tequila, Cointreau, lime, agave), Dionysus (fig-infused bourbon, pear liqueur) and Nyx (espresso martini)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Café Athena have gluten-free, vegan or vegetarian options?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The full menu includes vegan, vegetarian and gluten-free dishes. On the happy hour menu, for example, the yalanji, artichoke hearts, falafel, rosemary potatoes and lemon herb veggies are vegan and gluten-free."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I host a rehearsal dinner or private party at Café Athena?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Café Athena hosts group dining for parties of ten or more, including birthdays, rehearsal dinners, and bachelor and bachelorette dinners. Submit the group dining form on cafeathena.com and a manager will send a custom menu and quote."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Café Athena do catering?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, from office lunches to weddings. Buffet menus are $20.95 per person with a 10-person minimum, and there's a full a la carte catering menu."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Café Athena take reservations?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Reservations can be made online through the link on cafeathena.com, or by calling (858) 274-1140."
+      }
+    }
+  ]
+}

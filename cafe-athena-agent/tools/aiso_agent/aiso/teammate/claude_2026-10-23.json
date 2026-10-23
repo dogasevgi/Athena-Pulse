@@ -1,0 +1,40 @@
+{
+  "_source": "Teammate report (report-2.html), measured 2026-10-23T12:00 across 47 Claude answers. Transcribed aggregates; raw answers not included.",
+  "platform": "Claude",
+  "answers": 47,
+  "mention_rate": 0.17,
+  "value_weighted": 0.10,
+  "avg_rank": 2.38,
+  "by_category": {
+    "events": 0.0, "catering": 0.25, "date_night": 0.0, "casual": 0.0,
+    "cuisine": 0.62, "dietary": 0.0, "dishes": 0.33, "happy_hour": 0.0, "lunch": 0.0
+  },
+  "top_competitors": [
+    ["Pacific Beach AleHouse", 0.13], ["The Great Greek", 0.11], ["The Grass Skirt", 0.11],
+    ["Slowly Restaurant & Lounge", 0.11], ["Waterbar", 0.11], ["Pacific Beach Fish Shop", 0.11],
+    ["Firehouse", 0.11], ["Meze Greek Fusion", 0.08]
+  ],
+  "cited_sources": [
+    {"domain": "opentable.com", "cited": 0.30, "athena": null},
+    {"domain": "airbnb.com", "cited": 0.13, "athena": null},
+    {"domain": "lajollamom.com", "cited": 0.11, "athena": null},
+    {"domain": "sandiego.org", "cited": 0.11, "athena": null},
+    {"domain": "nbcsandiego.com", "cited": 0.08, "athena": false, "competitors": ["Pacific Beach AleHouse"]},
+    {"domain": "wanderlog.com", "cited": 0.08, "athena": null},
+    {"domain": "foursquare.com", "cited": 0.06, "athena": null},
+    {"domain": "mmm-yoso.com", "cited": 0.06, "athena": true},
+    {"domain": "ucsdguardian.org", "cited": 0.06, "athena": null},
+    {"domain": "hoodline.com", "cited": 0.06, "athena": false, "competitors": ["Meze Greek Fusion"]},
+    {"domain": "tableagent.com", "cited": 0.06, "athena": null},
+    {"domain": "sandiegomagazine.com", "cited": 0.06, "athena": false, "competitors": ["The Grass Skirt"]}
+  ],
+  "site_audit_cafeathena_com": {
+    "restaurant_schema": false, "faq_schema": false, "menu_prices_as_text": false,
+    "menu_pdf_links": 1, "llms_txt": false, "ai_crawlers_blocked": false,
+    "mentions": {"gluten": true, "vegan": true, "vegetarian": true, "happy hour": true, "catering": true,
+                 "private": false, "rehearsal": true, "pacific beach": true, "1990": true, "cocktail": true}
+  },
+  "nap_consistency": "No conflicts found across 2 sources that mention the restaurant.",
+  "name_variants": [{"name": "Athenas Catering", "count": 1}],
+  "outreach_targets": ["gbsan.com", "hoodline.com", "nbcsandiego.com", "sandiegomagazine.com"]
+}

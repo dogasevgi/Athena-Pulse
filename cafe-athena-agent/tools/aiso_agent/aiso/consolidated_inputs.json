@@ -1,0 +1,56 @@
+{
+  "_note": "Curated by hand from the three team outputs on 2026-10-23. Numbers marked 'snapshot' are used only when the live database isn't available.",
+  "sources": [
+    {"team": "Agent (this repo)", "what": "Gemini answers to San Diego queries, live website audits of Café Athena and 3 rivals, Google Trends demand, generated fixes", "status": "live", "use": "Used"},
+    {"team": "Teammate report (report-2.html)", "what": "47 Claude answers, live audit of cafeathena.com, cited pages, booking-value weighting", "status": "live", "use": "Used"},
+    {"team": "Teammate dashboard (index.html)", "what": "Interactive dashboard prototype: query bank, gap cards, fix generators, free-API guide", "status": "simulated", "use": "Ideas used; numbers NOT used (generated with Math.random or typed in, mock competitor list)"}
+  ],
+  "snapshot_gemini": {
+    "runs": [{"label": "Run 1 (25 queries)", "n": 25, "mentioned": 2}, {"label": "Run 2 (39 queries, incl. Google Trends)", "n": 39, "mentioned": 1}],
+    "by_category_run2": {"casual": 0.0, "catering": 0.0, "cuisine": 0.10, "date_night": 0.0, "dietary": 0.0, "events": 0.0, "happy_hour": 0.0, "lunch": 0.0},
+    "top_rivals": ["JRDN", "The Fishery", "The Grass Skirt", "Puesto", "World Famous", "The Baked Bear"],
+    "run1_rivals": ["JRDN", "The Fishery", "The Grass Skirt", "PB AleHouse", "World Famous", "Waterbar"]
+  },
+  "examples": [
+    {"query": "where can I get a good gyro near Garnet Ave", "result": "Café Athena not mentioned (Gemini), though it is on Garnet Ave"},
+    {"query": "best Greek food in San Diego", "result": "Café Athena not mentioned (Gemini)"},
+    {"query": "authentic Greek restaurant Pacific Beach San Diego", "result": "Café Athena #4 (Gemini)"}
+  ],
+  "site_compare": {
+    "columns": ["Café Athena", "JRDN (Gemini's top pick)", "The Grass Skirt", "The Fishery"],
+    "rows": [
+      ["Restaurant schema", false, true, false, false],
+      ["FAQ schema", false, true, false, false],
+      ["llms.txt", false, true, null, null],
+      ["Menu prices as text", "Bar & happy hour menu only; catering menu is a PDF", true, null, null]
+    ],
+    "source": "Agent audit 2026-10-23; Café Athena schema and llms.txt confirmed by the teammate's audit"
+  },
+  "trends": [
+    "Happy hour drew the most related searches of any term tested in San Diego. People search it by restaurant name (Yard House, Javier's, Oggi's: Breakout) and want the menu.",
+    "La Jolla, Little Italy and North Park appear in happy-hour searches; Pacific Beach does not, so it's unclaimed.",
+    "Mediterranean searches are led by restaurant names (Aladdin, Sahara: Breakout). Greek searches are citywide ('greek restaurant san diego'), not 'Pacific Beach'.",
+    "'best restaurants pacific beach' and 'pacific beach restaurants on the water' are the key local phrases."
+  ],
+  "conflicts": [
+    "Happy hour days: the bar menu says 'every day 3–6 PM', one home-page sentence says 'weekday'.",
+    "Fri–Sat closing: the official site says 9:30 PM; the San Diego Reader listing still says 10 PM. The teammate's check found no conflicts across 2 sources; this third listing differs.",
+    "Menu readability: the teammate's audit found no prices in HTML; the bar & happy hour page does list prices as text. The catering menu is PDF-only.",
+    "Maximum party size isn't published anywhere official."
+  ],
+  "plan": [
+    {"title": "Publish a private events and catering page with real details", "value": "$2,000 / $1,200 per booking", "found_by": ["Agent", "Claude report", "Dashboard"], "evidence": "0% of event answers in Gemini and Claude; Claude 25% for catering. Rivals with dedicated event pages are recommended instead.", "status": "done", "deliverable": "page-private-events-pacific-beach (approved)", "owner": "Confirm maximum party size and add it."},
+    {"title": "Add Restaurant, Menu and FAQPage schema, plus llms.txt", "value": "All request types", "found_by": ["Agent", "Claude report", "Dashboard"], "evidence": "Gemini's top pick (JRDN) has Restaurant + FAQ schema and llms.txt; Café Athena has none (both audits).", "status": "done", "deliverable": "restaurant.jsonld (with real menu, phone, hours), llms.txt", "owner": "Paste into the site header; upload llms.txt to the site root."},
+    {"title": "Give happy hour its own page with the full menu and prices", "value": "$45 per visit, highest search demand", "found_by": ["Agent", "Google Trends", "Dashboard"], "evidence": "0% of happy-hour answers in both assistants; San Diegans search happy hour by restaurant name and want the menu; Pacific Beach happy hour is unclaimed.", "status": "done", "deliverable": "page-happy-hour-pacific-beach (approved)", "owner": "Confirm 'daily' vs 'weekday' and fix the home page sentence."},
+    {"title": "Publish a direct-answer FAQ", "value": "All request types", "found_by": ["Agent", "Claude report", "Dashboard"], "evidence": "Assistants answer from question-and-answer text; no FAQ exists today.", "status": "done", "deliverable": "faq (10 questions, approved; also in schema)", "owner": ""},
+    {"title": "Date night page naming the mythology cocktails", "value": "$130 per booking", "found_by": ["Agent", "Claude report"], "evidence": "0% of date-night answers in both assistants; rivals are praised for cocktails and atmosphere.", "status": "done", "deliverable": "page-date-night-cocktails-pacific-beach (approved)", "owner": ""},
+    {"title": "Vegan and gluten-free page listing dishes by name", "value": "$70 per booking", "found_by": ["Agent", "Claude report", "Dashboard"], "evidence": "0% of dietary answers in both assistants, though the menu labels vegan and gluten-free dishes.", "status": "done", "deliverable": "page-gluten-free-vegan-mediterranean-san-diego (approved)", "owner": ""},
+    {"title": "Get listed on the guides assistants cite", "value": "All request types", "found_by": ["Claude report", "Dashboard"], "evidence": "nbcsandiego.com, hoodline.com and sandiegomagazine.com are cited by Claude and list rivals, not Café Athena.", "status": "drafted", "deliverable": "outreach emails per site", "owner": "Send from the owner's email; add San Diego Reader and Eater San Diego."},
+    {"title": "Publish the catering menu as a web page, not only a PDF", "value": "$1,200 per booking", "found_by": ["Claude report", "Agent"], "evidence": "The November 2025 catering menu exists only as a PDF.", "status": "next", "deliverable": "Agent can convert it (text already extracted)", "owner": "Approve conversion."},
+    {"title": "Fix conflicting listings and connect 'Athena's Catering'", "value": "Trust signals", "found_by": ["Agent", "Claude report"], "evidence": "San Diego Reader lists 10 PM Fri–Sat; Claude recommended 'Athenas Catering' without linking it; Foursquare tags it to the restaurant.", "status": "owner", "deliverable": "name-variants.md checklist", "owner": "Update the Reader listing; confirm the catering name."},
+    {"title": "Refresh the Google Business Profile description", "value": "All request types", "found_by": ["Agent", "Claude report"], "evidence": "Profiles feed map and AI answers; current description not reviewed.", "status": "drafted", "deliverable": "gbp_description.txt", "owner": "Paste into the profile."},
+    {"title": "Ask happy guests for Google reviews (policy-safe)", "value": "Reputation", "found_by": ["Agent"], "evidence": "Rivals are praised for reviews and reputation.", "status": "drafted", "deliverable": "review-request.md", "owner": "Print as a table card; Google only, no incentives."},
+    {"title": "Build the owner dashboard on real data", "value": "Ongoing", "found_by": ["Dashboard"], "evidence": "The dashboard prototype has the right layout but simulated numbers.", "status": "next", "deliverable": "Point the dashboard at out/aiso.db (or streamlit dashboard.py)", "owner": ""}
+  ],
+  "approved_pages": ["About", "FAQ", "Menu", "Date night", "Gluten-free, vegan and vegetarian", "Greek and Mediterranean food", "Daily happy hour", "Private events and group dining"]
+}

@@ -1,0 +1,320 @@
+[
+  {
+    "id": "cuisine-00",
+    "intent": "cuisine",
+    "value": 70,
+    "query": "Greek restaurant San Diego"
+  },
+  {
+    "id": "cuisine-01",
+    "intent": "cuisine",
+    "value": 70,
+    "query": "Mediterranean food San Diego"
+  },
+  {
+    "id": "cuisine-02",
+    "intent": "cuisine",
+    "value": 70,
+    "query": "best Greek food in Pacific Beach"
+  },
+  {
+    "id": "cuisine-03",
+    "intent": "cuisine",
+    "value": 70,
+    "query": "best Mediterranean restaurant in San Diego"
+  },
+  {
+    "id": "cuisine-04",
+    "intent": "cuisine",
+    "value": 70,
+    "query": "authentic Greek restaurant in San Diego"
+  },
+  {
+    "id": "cuisine-05",
+    "intent": "cuisine",
+    "value": 70,
+    "query": "where can I get a really good gyro in PB"
+  },
+  {
+    "id": "cuisine-06",
+    "intent": "cuisine",
+    "value": 70,
+    "query": "best falafel near Pacific Beach San Diego"
+  },
+  {
+    "id": "cuisine-07",
+    "intent": "cuisine",
+    "value": 70,
+    "query": "Greek restaurant near Mission Bay"
+  },
+  {
+    "id": "cuisine-08",
+    "intent": "cuisine",
+    "value": 70,
+    "query": "best moussaka in San Diego"
+  },
+  {
+    "id": "cuisine-09",
+    "intent": "cuisine",
+    "value": 70,
+    "query": "good spanakopita in Pacific Beach"
+  },
+  {
+    "id": "dishes-00",
+    "intent": "dishes",
+    "value": 60,
+    "query": "best skordalia in San Diego"
+  },
+  {
+    "id": "dishes-01",
+    "intent": "dishes",
+    "value": 60,
+    "query": "where to get yemista in San Diego"
+  },
+  {
+    "id": "dishes-02",
+    "intent": "dishes",
+    "value": 60,
+    "query": "best keftedes in Pacific Beach"
+  },
+  {
+    "id": "dishes-03",
+    "intent": "dishes",
+    "value": 60,
+    "query": "good lentil soup Greek restaurant San Diego"
+  },
+  {
+    "id": "dishes-04",
+    "intent": "dishes",
+    "value": 60,
+    "query": "where to drink ouzo in San Diego"
+  },
+  {
+    "id": "dishes-05",
+    "intent": "dishes",
+    "value": 60,
+    "query": "best Greek desserts in Pacific Beach"
+  },
+  {
+    "id": "happy_hour-00",
+    "intent": "happy_hour",
+    "value": 45,
+    "query": "best happy hour in San Diego"
+  },
+  {
+    "id": "happy_hour-01",
+    "intent": "happy_hour",
+    "value": 45,
+    "query": "happy hour near me in Pacific Beach"
+  },
+  {
+    "id": "happy_hour-02",
+    "intent": "happy_hour",
+    "value": 45,
+    "query": "happy hour with good food near Garnet Ave"
+  },
+  {
+    "id": "happy_hour-03",
+    "intent": "happy_hour",
+    "value": 45,
+    "query": "best happy hour in Pacific Beach San Diego"
+  },
+  {
+    "id": "happy_hour-04",
+    "intent": "happy_hour",
+    "value": 45,
+    "query": "happy hour small plates in PB that isn't just bar food"
+  },
+  {
+    "id": "happy_hour-05",
+    "intent": "happy_hour",
+    "value": 45,
+    "query": "where to get drinks and appetizers after work in Pacific Beach"
+  },
+  {
+    "id": "happy_hour-06",
+    "intent": "happy_hour",
+    "value": 45,
+    "query": "early happy hour 3pm Pacific Beach"
+  },
+  {
+    "id": "date_night-00",
+    "intent": "date_night",
+    "value": 130,
+    "query": "date night spot in PB with good cocktails"
+  },
+  {
+    "id": "date_night-01",
+    "intent": "date_night",
+    "value": 130,
+    "query": "romantic dinner in Pacific Beach that isn't too expensive"
+  },
+  {
+    "id": "date_night-02",
+    "intent": "date_night",
+    "value": 130,
+    "query": "unique cocktail bar in Pacific Beach San Diego"
+  },
+  {
+    "id": "date_night-03",
+    "intent": "date_night",
+    "value": 130,
+    "query": "first date restaurant in Pacific Beach"
+  },
+  {
+    "id": "date_night-04",
+    "intent": "date_night",
+    "value": 130,
+    "query": "anniversary dinner near Mission Beach San Diego"
+  },
+  {
+    "id": "dietary-00",
+    "intent": "dietary",
+    "value": 70,
+    "query": "Mediterranean restaurant with gluten-free options in San Diego"
+  },
+  {
+    "id": "dietary-01",
+    "intent": "dietary",
+    "value": 70,
+    "query": "vegan-friendly restaurants in Pacific Beach"
+  },
+  {
+    "id": "dietary-02",
+    "intent": "dietary",
+    "value": 70,
+    "query": "vegetarian dinner in Pacific Beach San Diego"
+  },
+  {
+    "id": "dietary-03",
+    "intent": "dietary",
+    "value": 70,
+    "query": "gluten free dinner in PB San Diego"
+  },
+  {
+    "id": "dietary-04",
+    "intent": "dietary",
+    "value": 70,
+    "query": "restaurant in Pacific Beach good for a vegan and a meat eater together"
+  },
+  {
+    "id": "local-00",
+    "intent": "local",
+    "value": 80,
+    "query": "best restaurants in Pacific Beach"
+  },
+  {
+    "id": "local-01",
+    "intent": "local",
+    "value": 80,
+    "query": "Pacific Beach restaurants on the water"
+  },
+  {
+    "id": "local-02",
+    "intent": "local",
+    "value": 80,
+    "query": "where to eat in Pacific Beach San Diego"
+  },
+  {
+    "id": "local-03",
+    "intent": "local",
+    "value": 80,
+    "query": "best restaurants on Garnet Avenue"
+  },
+  {
+    "id": "local-04",
+    "intent": "local",
+    "value": 80,
+    "query": "best local restaurants in Pacific Beach that aren't touristy"
+  },
+  {
+    "id": "local-05",
+    "intent": "local",
+    "value": 80,
+    "query": "family friendly restaurant in Pacific Beach"
+  },
+  {
+    "id": "local-06",
+    "intent": "local",
+    "value": 80,
+    "query": "longest running local restaurants in Pacific Beach"
+  },
+  {
+    "id": "local-07",
+    "intent": "local",
+    "value": 80,
+    "query": "visiting San Diego for a weekend, where should I eat near the beach"
+  },
+  {
+    "id": "lunch-00",
+    "intent": "lunch",
+    "value": 30,
+    "query": "healthy lunch spot in Pacific Beach"
+  },
+  {
+    "id": "lunch-01",
+    "intent": "lunch",
+    "value": 30,
+    "query": "best lunch on Garnet Avenue"
+  },
+  {
+    "id": "lunch-02",
+    "intent": "lunch",
+    "value": 30,
+    "query": "healthy takeout in Pacific Beach San Diego"
+  },
+  {
+    "id": "events-00",
+    "intent": "events",
+    "value": 2000,
+    "query": "where to host a rehearsal dinner in Pacific Beach"
+  },
+  {
+    "id": "events-01",
+    "intent": "events",
+    "value": 2000,
+    "query": "restaurant with a private dining room in Pacific Beach San Diego"
+  },
+  {
+    "id": "events-02",
+    "intent": "events",
+    "value": 2000,
+    "query": "restaurant for a birthday dinner for 15 people in PB"
+  },
+  {
+    "id": "events-03",
+    "intent": "events",
+    "value": 2000,
+    "query": "group dinner for 20 people near the beach in San Diego"
+  },
+  {
+    "id": "events-04",
+    "intent": "events",
+    "value": 2000,
+    "query": "restaurant with private event space near Mission Beach"
+  },
+  {
+    "id": "catering-00",
+    "intent": "catering",
+    "value": 1200,
+    "query": "Mediterranean catering in San Diego"
+  },
+  {
+    "id": "catering-01",
+    "intent": "catering",
+    "value": 1200,
+    "query": "Greek catering for an office lunch in San Diego"
+  },
+  {
+    "id": "catering-02",
+    "intent": "catering",
+    "value": 1200,
+    "query": "catering for a graduation party in San Diego, Mediterranean food"
+  },
+  {
+    "id": "catering-03",
+    "intent": "catering",
+    "value": 1200,
+    "query": "healthy catering for a corporate event in San Diego"
+  }
+]
